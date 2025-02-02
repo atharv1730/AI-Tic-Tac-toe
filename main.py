@@ -21,6 +21,7 @@ class Game:
     def __init__(self):
         # Console Board
         self.board = Board()
+        self.player = 1
         self.show_lines()
 
     def show_lines(self):
