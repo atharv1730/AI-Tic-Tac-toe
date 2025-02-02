@@ -1,6 +1,7 @@
 import sys
 import pygame
 from constants import *
+import numpy as np
 
 # Pygame
 pygame.init()
@@ -9,8 +10,16 @@ pygame.display.set_caption("Tic-Tac-Toe AI")
 screen.fill(BG_COLOR)
 
 
+class Board:
+    def __init__(self):
+        self.squares = np.zeros((ROWS, COLUMNS))
+        print(self.squares)
+
+
 class Game:
     def __init__(self):
+        # Console Board
+        self.board = Board()
         self.show_lines()
 
     def show_lines(self):
