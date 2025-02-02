@@ -35,6 +35,8 @@ class Game:
 def main():
 
     game = Game()
+    board = game.board
+    player = game.player
     
     while True:
         for event in pygame.event.get():
@@ -48,7 +50,7 @@ def main():
                 row = pos[1] // SQUARE_SIZE   # y axis
                 col = pos[0] // SQUARE_SIZE   # x axis
 
-
+                board.mark_square(row, col, player)
         
         pygame.display.update()
 
