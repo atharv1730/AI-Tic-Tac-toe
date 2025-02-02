@@ -13,8 +13,9 @@ screen.fill(BG_COLOR)
 class Board:
     def __init__(self):
         self.squares = np.zeros((ROWS, COLUMNS))
-        print(self.squares)
 
+    def mark_square(self, row, col, player):
+        self.squares[row][col] = player
 
 class Game:
     def __init__(self):
