@@ -39,10 +39,20 @@ class Game:
     def draw_figure(self, row, col):
         if self.player == 1:
             # Draw an X
-            pass
+            # Descending diagonal
+            start_desc = (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE) # x, y
+            end_desc = (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE) # x, y
+            pygame.draw.line(screen, CROSS_COLOR, start_desc, end_desc, CROSS_WIDTH) # screen, color, start_pos, end_pos, width
+            
+            # Ascending diagonal
+            start_asc = (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE) # x, y
+            end_asc = (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE) # x, y
+            pygame.draw.line(screen, CROSS_COLOR, start_asc, end_asc, CROSS_WIDTH)
+
         else:
             # Draw an O
-            pass
+            center = (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2) # x, y
+            pygame.draw.circle(screen, CIRCLE_COLOR, center, RADIUS, CIRCLE_WIDTH)
 
     def change_player(self):
         self.player = 1 if self.player == 2 else 2
