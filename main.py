@@ -36,14 +36,21 @@ class Game:
         pygame.draw.line(screen, LINE_COLOR, (0, HEIGHT-SQUARE_SIZE), (WIDTH, HEIGHT-SQUARE_SIZE), LINE_WIDTH)
 
 
-    def chnage_player(self):
+    def draw_figure(self, row, col):
+        if self.player == 1:
+            # Draw an X
+            pass
+        else:
+            # Draw an O
+            pass
+
+    def change_player(self):
         self.player = 1 if self.player == 2 else 2
 
 def main():
 
     game = Game()
     board = game.board
-    player = game.player
     
     while True:
         for event in pygame.event.get():
@@ -58,8 +65,9 @@ def main():
                 col = pos[0] // SQUARE_SIZE   # x axis
 
                 if board.is_square_empty(row, col):
-                    board.mark_square(row, col, player)
-                    game.chnage_player()
+                    board.mark_square(row, col, game.player)
+                    game.draw_figure(row, col)
+                    game.change_player()
         
         pygame.display.update()
 
