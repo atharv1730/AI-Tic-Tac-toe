@@ -35,6 +35,10 @@ class Game:
         pygame.draw.line(screen, LINE_COLOR, (0, SQUARE_SIZE), (WIDTH, SQUARE_SIZE), LINE_WIDTH)
         pygame.draw.line(screen, LINE_COLOR, (0, HEIGHT-SQUARE_SIZE), (WIDTH, HEIGHT-SQUARE_SIZE), LINE_WIDTH)
 
+
+    def next_player(self):
+        self.player = 1 if self.player == 2 else 2
+
 def main():
 
     game = Game()
