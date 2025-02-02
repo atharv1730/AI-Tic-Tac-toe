@@ -41,6 +41,14 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+            # If screen is clicked
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = event.pos
+                row = pos[1] // SQUARE_SIZE   # y axis
+                col = pos[0] // SQUARE_SIZE   # x axis
+
+
         
         pygame.display.update()
 
