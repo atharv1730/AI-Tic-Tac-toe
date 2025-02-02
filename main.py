@@ -36,7 +36,7 @@ class Game:
         pygame.draw.line(screen, LINE_COLOR, (0, HEIGHT-SQUARE_SIZE), (WIDTH, HEIGHT-SQUARE_SIZE), LINE_WIDTH)
 
 
-    def next_player(self):
+    def chnage_player(self):
         self.player = 1 if self.player == 2 else 2
 
 def main():
@@ -59,6 +59,7 @@ def main():
 
                 if board.is_square_empty(row, col):
                     board.mark_square(row, col, player)
+                    game.chnage_player()
         
         pygame.display.update()
 
