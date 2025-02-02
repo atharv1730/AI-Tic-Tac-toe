@@ -17,6 +17,9 @@ class Board:
     def mark_square(self, row, col, player):
         self.squares[row][col] = player
 
+    def is_square_empty(self, row, col):
+        return self.squares[row][col] == 0
+
 class Game:
     def __init__(self):
         # Console Board
@@ -50,7 +53,8 @@ def main():
                 row = pos[1] // SQUARE_SIZE   # y axis
                 col = pos[0] // SQUARE_SIZE   # x axis
 
-                board.mark_square(row, col, player)
+                if board.is_square_empty(row, col):
+                    board.mark_square(row, col, player)
         
         pygame.display.update()
 
