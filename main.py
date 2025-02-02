@@ -6,6 +6,12 @@ from constants import *
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tic-Tac-Toe AI")
+screen.fill(BG_COLOR)
+
+
+class Game:
+    def __init__(self):
+        pass
 
 
 def main():
@@ -16,6 +22,7 @@ def main():
                 pygame.quit()
                 sys.exit()
         
+        pygame.display.update()
 
 
 main()

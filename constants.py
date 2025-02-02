@@ -1,2 +1,5 @@
 WIDTH = 600
 HEIGHT = 600
+
+# COLORS
+BG_COLOR = [44, 58, 71]
