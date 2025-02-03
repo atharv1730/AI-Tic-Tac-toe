@@ -58,7 +58,9 @@ class Board:
         return self.marked_squares == 0
 
 class AI:
-    pass
+    def __init__(self, level=0, player=2):
+        self.level = level
+        self.player = player
 
 class Game:
     def __init__(self):
