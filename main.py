@@ -58,7 +58,7 @@ class Board:
         return self.marked_squares == 0
 
 class AI:
-    def __init__(self, level=0, player=2):
+    def __init__(self, level=0, player=2):  # Level 0: Random AI, Level 1: Minimax AI
         self.level = level
         self.player = player
 
