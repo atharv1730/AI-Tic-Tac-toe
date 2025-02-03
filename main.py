@@ -17,7 +17,26 @@ class Board:
         self.marked_squares = 0
 
     def final_state(self):
-        pass
+        # Vertical win
+        for col in range(COLUMNS):
+            if self.squares[0][col] == self.squares[1][col] == self.squares[2][col] != 0:
+                return self.squares[0][col] 
+            
+        # Horizontal win
+        for row in range(ROWS):
+            if self.squares[row][0] == self.squares[row][1] == self.squares[row][2] != 0:
+                return self.squares[row][0]
+            
+        # Ascending diagonal win
+        if self.squares[2][0] == self.squares[1][1] == self.squares[0][2] != 0:
+            return self.squares[2][0]
+        
+        # Descending diagonal win
+        if self.squares[0][0] == self.squares[1][1] == self.squares[2][2] != 0:
+            return self.squares[0][0]
+        
+        return 0
+
 
     def mark_square(self, row, col, player):
         self.squares[row][col] = player
