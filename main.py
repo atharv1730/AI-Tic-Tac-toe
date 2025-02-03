@@ -37,7 +37,6 @@ class Board:
         
         return 0
 
-
     def mark_square(self, row, col, player):
         self.squares[row][col] = player
 
@@ -58,10 +57,16 @@ class Board:
     def is_empty(self):
         return self.marked_squares == 0
 
+class AI:
+    pass
+
 class Game:
     def __init__(self):
         # Console Board
         self.board = Board()
+        # self.ai = AI()
+        self.gamemode = 'pvp' # PvP or AI
+        self.running = True
         self.player = 1
         self.show_lines()
 
@@ -72,7 +77,6 @@ class Game:
         # Horizontal lines
         pygame.draw.line(screen, LINE_COLOR, (0, SQUARE_SIZE), (WIDTH, SQUARE_SIZE), LINE_WIDTH)
         pygame.draw.line(screen, LINE_COLOR, (0, HEIGHT-SQUARE_SIZE), (WIDTH, HEIGHT-SQUARE_SIZE), LINE_WIDTH)
-
 
     def draw_figure(self, row, col):
         if self.player == 1:
