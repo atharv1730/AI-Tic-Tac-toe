@@ -3,6 +3,7 @@ import pygame
 from constants import *
 import numpy as np
 import random
+import copy
 
 # Pygame setup
 pygame.init()
@@ -73,7 +74,7 @@ class AI:
         
         # If player wins
         if case == 1:
-            return 1
+            return 1, None
         
         # If AI wins
         elif case == 2:
@@ -89,6 +90,12 @@ class AI:
             min_eval = float('inf') # Can be anything more than 1
             best_move = None
             empty_squares = board.get_empty_squares()
+
+            for (row, col) in empty_squares:
+                temp_board = copy.deepcopy(board)
+                temp_board.mark_square(row, col, self.player)
+                eval = self.minimax(temp_board, True)
+
 
     def eval(self, main_board):
         if self.level == 0:
