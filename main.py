@@ -2,8 +2,9 @@ import sys
 import pygame
 from constants import *
 import numpy as np
+import random
 
-# Pygame
+# Pygame setup
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tic-Tac-Toe AI")
@@ -13,7 +14,6 @@ screen.fill(BG_COLOR)
 class Board:
     def __init__(self):
         self.squares = np.zeros((ROWS, COLUMNS))
-        self.empty_squares = self.squares
         self.marked_squares = 0
 
     def final_state(self):
@@ -39,16 +39,13 @@ class Board:
 
     def mark_square(self, row, col, player):
         self.squares[row][col] = player
+        self.marked_squares += 1
 
     def is_square_empty(self, row, col):
         return self.squares[row][col] == 0
     
     def get_empty_squares(self):
-        empty_squares = []
-        for row in range(ROWS):
-            for col in range(COLUMNS):
-                if self.is_square_empty(row, col):
-                    empty_squares.append((row, col))
+        empty_squares = [(row, col) for row in range(ROWS) for col in range(COLUMNS) if self.is_square_empty(row, col)]
         return empty_squares
 
     def is_full(self):
@@ -57,54 +54,71 @@ class Board:
     def is_empty(self):
         return self.marked_squares == 0
 
+
 class AI:
     def __init__(self, level=0, player=2):  # Level 0: Random AI, Level 1: Minimax AI
         self.level = level
         self.player = player
 
+    def random_AI(self, board):
+        empty_squares = board.get_empty_squares()
+        if not empty_squares:  # Check if the board is full
+            return None
+        return random.choice(empty_squares)  # Choose a random move safely
+    
+    def eval(self, main_board):
+        if self.level == 0:
+            move = self.random_AI(main_board)
+            if move is None:  # If no moves left, return an invalid move
+                return (-1, -1)
+        else:
+            # Minimax AI (not implemented yet)
+            pass
+        
+        return move
+
+
 class Game:
     def __init__(self):
-        # Console Board
         self.board = Board()
-        # self.ai = AI()
-        self.gamemode = 'pvp' # PvP or AI
+        self.ai = AI()
+        self.gamemode = 'ai'  # PvP or AI
         self.running = True
         self.player = 1
         self.show_lines()
 
     def show_lines(self):
         # Vertical lines
-        pygame.draw.line(screen, LINE_COLOR, (SQUARE_SIZE, 0), (SQUARE_SIZE, HEIGHT), LINE_WIDTH)  # screen, color, start_pos, end_pos, width
-        pygame.draw.line(screen, LINE_COLOR, (WIDTH-SQUARE_SIZE, 0), (WIDTH-SQUARE_SIZE, HEIGHT), LINE_WIDTH)
+        pygame.draw.line(screen, LINE_COLOR, (SQUARE_SIZE, 0), (SQUARE_SIZE, HEIGHT), LINE_WIDTH)
+        pygame.draw.line(screen, LINE_COLOR, (WIDTH - SQUARE_SIZE, 0), (WIDTH - SQUARE_SIZE, HEIGHT), LINE_WIDTH)
         # Horizontal lines
         pygame.draw.line(screen, LINE_COLOR, (0, SQUARE_SIZE), (WIDTH, SQUARE_SIZE), LINE_WIDTH)
-        pygame.draw.line(screen, LINE_COLOR, (0, HEIGHT-SQUARE_SIZE), (WIDTH, HEIGHT-SQUARE_SIZE), LINE_WIDTH)
+        pygame.draw.line(screen, LINE_COLOR, (0, HEIGHT - SQUARE_SIZE), (WIDTH, HEIGHT - SQUARE_SIZE), LINE_WIDTH)
 
     def draw_figure(self, row, col):
         if self.player == 1:
-            # Draw an X
-            # Descending diagonal
-            start_desc = (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE) # x, y
-            end_desc = (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE) # x, y
-            pygame.draw.line(screen, CROSS_COLOR, start_desc, end_desc, CROSS_WIDTH) # screen, color, start_pos, end_pos, width
-            
-            # Ascending diagonal
-            start_asc = (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE) # x, y
-            end_asc = (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE) # x, y
+            # Draw X
+            start_desc = (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE)
+            end_desc = (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SPACE)
+            pygame.draw.line(screen, CROSS_COLOR, start_desc, end_desc, CROSS_WIDTH)
+
+            start_asc = (col * SQUARE_SIZE + SPACE, row * SQUARE_SIZE + SPACE)
+            end_asc = (col * SQUARE_SIZE + SQUARE_SIZE - SPACE, row * SQUARE_SIZE + SQUARE_SIZE - SPACE)
             pygame.draw.line(screen, CROSS_COLOR, start_asc, end_asc, CROSS_WIDTH)
 
         else:
-            # Draw an O
-            center = (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2) # x, y
+            # Draw O
+            center = (col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2)
             pygame.draw.circle(screen, CIRCLE_COLOR, center, RADIUS, CIRCLE_WIDTH)
 
     def change_player(self):
         self.player = 1 if self.player == 2 else 2
 
-def main():
 
+def main():
     game = Game()
     board = game.board
+    ai = game.ai
     
     while True:
         for event in pygame.event.get():
@@ -115,14 +129,24 @@ def main():
             # If screen is clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = event.pos
-                row = pos[1] // SQUARE_SIZE   # y axis
-                col = pos[0] // SQUARE_SIZE   # x axis
+                row = pos[1] // SQUARE_SIZE  # y-axis
+                col = pos[0] // SQUARE_SIZE  # x-axis
 
                 if board.is_square_empty(row, col):
                     board.mark_square(row, col, game.player)
                     game.draw_figure(row, col)
                     game.change_player()
-        
+
+        if game.gamemode == "ai" and ai.player == game.player:
+            pygame.display.update()
+
+            move = ai.eval(board)
+            if move != (-1, -1):  # Ensure AI has a move to make
+                row, col = move
+                board.mark_square(row, col, ai.player)
+                game.draw_figure(row, col)
+                game.change_player()
+
         pygame.display.update()
 
 
