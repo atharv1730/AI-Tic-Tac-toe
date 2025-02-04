@@ -78,35 +78,56 @@ class AI:
         
         # If AI wins
         elif case == 2:
-            return -1
+            return -1, None
         
         # If it's a draw
         elif board.is_full():
-            return 0
+            return 0, None
 
         if maximizing:
-            pass
+            max_eval = -100 # Can be anything more than 1
+            best_move = None
+            empty_squares = board.get_empty_squares()
+
+            for (row, col) in empty_squares:
+                temp_board = copy.deepcopy(board)
+                temp_board.mark_square(row, col, 1)
+                eval = self.minimax(temp_board, False)[0]
+                if eval > max_eval:
+                    max_eval = eval
+                    best_move = (row, col)
+
+            return max_eval, best_move
+            
         else:
-            min_eval = float('inf') # Can be anything more than 1
+            min_eval = 100 # Can be anything more than 1
             best_move = None
             empty_squares = board.get_empty_squares()
 
             for (row, col) in empty_squares:
                 temp_board = copy.deepcopy(board)
                 temp_board.mark_square(row, col, self.player)
-                eval = self.minimax(temp_board, True)
+                eval = self.minimax(temp_board, True)[0]
+                if eval < min_eval:
+                    min_eval = eval
+                    best_move = (row, col)
+
+            return min_eval, best_move
 
 
     def eval(self, main_board):
         if self.level == 0:
+            # random choice
+            eval = 'random'
             move = self.random_AI(main_board)
-            if move is None:  # If no moves left, return an invalid move
-                return (-1, -1)
         else:
-            # Minimax AI (not implemented yet)
-            self.minimax(main_board, False) # AI is going to minimize the player's score
-        
-        return move
+            # minimax algo choice
+            eval, move = self.minimax(main_board, False)
+
+        print(f'AI has chosen to mark the square in pos {move} with an eval of: {eval}')
+
+        return move # row, col
+
 
 
 class Game:
