@@ -36,7 +36,7 @@ class Board:
         if self.squares[0][0] == self.squares[1][1] == self.squares[2][2] != 0:
             return self.squares[0][0]
         
-        return 0
+        return None  # No winner
 
     def mark_square(self, row, col, player):
         self.squares[row][col] = player
@@ -124,9 +124,12 @@ class AI:
             # minimax algo choice
             eval, move = self.minimax(main_board, False)
 
-        print(f'AI has chosen to mark the square in pos {move} with an eval of: {eval}')
+        if move is not None:
+            print(f'AI has chosen to mark the square in pos {move} with an eval of: {eval}')
+        else:
+            print('AI has no moves left to make.')
 
-        return move # row, col
+        return move  # row, col
 
 
 
@@ -189,15 +192,21 @@ def main():
                     game.draw_figure(row, col)
                     game.change_player()
 
-        if game.gamemode == "ai" and ai.player == game.player:
+                    if board.final_state() is not None:
+                        game.running = False
+
+        if game.gamemode == "ai" and ai.player == game.player and game.running:
             pygame.display.update()
 
             move = ai.eval(board)
-            if move != (-1, -1):  # Ensure AI has a move to make
+            if move is not None:  # Ensure AI has a move to make
                 row, col = move
                 board.mark_square(row, col, ai.player)
                 game.draw_figure(row, col)
                 game.change_player()
+
+                if board.final_state() is not None:
+                    game.running = False
 
         pygame.display.update()
 
