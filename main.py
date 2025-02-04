@@ -56,7 +56,7 @@ class Board:
 
 
 class AI:
-    def __init__(self, level=0, player=2):  # Level 0: Random AI, Level 1: Minimax AI
+    def __init__(self, level=1, player=2):  # Level 0: Random AI, Level 1: Minimax AI
         self.level = level
         self.player = player
 
@@ -66,6 +66,11 @@ class AI:
             return None
         return random.choice(empty_squares)  # Choose a random move safely
     
+
+    def minimax(self):
+        pass
+
+
     def eval(self, main_board):
         if self.level == 0:
             move = self.random_AI(main_board)
@@ -73,7 +78,7 @@ class AI:
                 return (-1, -1)
         else:
             # Minimax AI (not implemented yet)
-            pass
+            self.minimax()
         
         return move
 
