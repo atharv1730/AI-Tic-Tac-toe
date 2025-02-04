@@ -67,7 +67,7 @@ class AI:
         return random.choice(empty_squares)  # Choose a random move safely
     
 
-    def minimax(self):
+    def minimax(self, board, maximizing):
         pass
 
 
