@@ -68,8 +68,27 @@ class AI:
     
 
     def minimax(self, board, maximizing):
-        pass
+        # Terminal state
+        case = board.final_state()
+        
+        # If player wins
+        if case == 1:
+            return 1
+        
+        # If AI wins
+        elif case == 2:
+            return -1
+        
+        # If it's a draw
+        elif board.is_full():
+            return 0
 
+        if maximizing:
+            pass
+        else:
+            min_eval = float('inf') # Can be anything more than 1
+            best_move = None
+            empty_squares = board.get_empty_squares()
 
     def eval(self, main_board):
         if self.level == 0:
@@ -78,7 +97,7 @@ class AI:
                 return (-1, -1)
         else:
             # Minimax AI (not implemented yet)
-            self.minimax()
+            self.minimax(main_board, False) # AI is going to minimize the player's score
         
         return move
 
