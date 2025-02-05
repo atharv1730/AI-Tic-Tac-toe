@@ -148,6 +148,7 @@ class Game:
         self.change_player()
 
     def show_lines(self):
+        screen.fill(BG_COLOR) # Clear the screen (Helps with resetting the game)
         # Vertical lines
         pygame.draw.line(screen, LINE_COLOR, (SQUARE_SIZE, 0), (SQUARE_SIZE, HEIGHT), LINE_WIDTH)
         pygame.draw.line(screen, LINE_COLOR, (WIDTH - SQUARE_SIZE, 0), (WIDTH - SQUARE_SIZE, HEIGHT), LINE_WIDTH)
