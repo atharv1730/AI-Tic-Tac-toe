@@ -143,7 +143,9 @@ class Game:
         self.show_lines()
 
     def make_move(self, row, col):
-        pass
+        self.mark_square(row, col, self.player)
+        self.draw_figure(row, col)
+        self.change_player()
 
     def show_lines(self):
         # Vertical lines
@@ -191,9 +193,7 @@ def main():
                 col = pos[0] // SQUARE_SIZE  # x-axis
 
                 if board.is_square_empty(row, col):
-                    board.mark_square(row, col, game.player)
-                    game.draw_figure(row, col)
-                    game.change_player()
+                    game.make_move(row, col)
 
                     if board.final_state() is not None:
                         game.running = False
@@ -204,9 +204,7 @@ def main():
             move = ai.eval(board)
             if move is not None:  # Ensure AI has a move to make
                 row, col = move
-                board.mark_square(row, col, ai.player)
-                game.draw_figure(row, col)
-                game.change_player()
+                game.make_move(row, col)
 
                 if board.final_state() is not None:
                     game.running = False
