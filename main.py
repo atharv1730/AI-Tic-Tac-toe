@@ -143,7 +143,7 @@ class Game:
         self.show_lines()
 
     def make_move(self, row, col):
-        self.mark_square(row, col, self.player)
+        self.board.mark_square(row, col, self.player)
         self.draw_figure(row, col)
         self.change_player()
 
@@ -197,6 +197,16 @@ def main():
 
                     if board.final_state() is not None:
                         game.running = False
+
+
+            if event.type == pygame.KEYDOWN:
+                # g is pressed to change gamemode
+                if event.key == pygame.K_g:
+                    game.gamemode = 'ai' if game.gamemode == 'pvp' else 'pvp'
+
+                if event.key == pygame.K_a:
+                    ai.level = 1 if ai.level == 0 else 0
+
 
         if game.gamemode == "ai" and ai.player == game.player and game.running:
             pygame.display.update()
