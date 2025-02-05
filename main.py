@@ -142,6 +142,9 @@ class Game:
         self.player = 1
         self.show_lines()
 
+    def make_move(self, row, col):
+        pass
+
     def show_lines(self):
         # Vertical lines
         pygame.draw.line(screen, LINE_COLOR, (SQUARE_SIZE, 0), (SQUARE_SIZE, HEIGHT), LINE_WIDTH)
