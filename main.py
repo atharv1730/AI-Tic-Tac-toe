@@ -174,6 +174,9 @@ class Game:
     def change_player(self):
         self.player = 1 if self.player == 2 else 2
 
+    def reset(self):
+        self.__init__()
+
 
 def main():
     game = Game()
@@ -182,6 +185,25 @@ def main():
     
     # Add an input in the start for game mode and AI level
     # Then disable changing the game mode and AI level in the middle of the game.
+
+    while True:
+        print('Choose the game mode: pvp or ai: ')
+        gmode = input()
+        if gmode != 'pvp' and gmode != 'ai':
+            print('Invalid input. Please try again.')
+        else:
+            if gmode == 'ai':
+                print('Choose the AI level: 0(random AI) or 1(Unbeatable AI): ')
+                level = int(input())
+                if level != 0 and level != 1:
+                    print('Invalid input. Please try again.')
+                else:
+                    game.gamemode = gmode
+                    ai.level = level
+                    break
+            break
+
+        game.gamemode = gmode
 
     while True:
         for event in pygame.event.get():
@@ -203,12 +225,11 @@ def main():
 
 
             if event.type == pygame.KEYDOWN:
-                # g is pressed to change gamemode
-                if event.key == pygame.K_g:
-                    game.gamemode = 'ai' if game.gamemode == 'pvp' else 'pvp'
-
-                if event.key == pygame.K_a:
-                    ai.level = 1 if ai.level == 0 else 0
+                # r is pressed to reset the game
+                if event.key == pygame.K_r:
+                    game.reset()
+                    board = game.board
+                    ai = game.ai
 
 
         if game.gamemode == "ai" and ai.player == game.player and game.running:
