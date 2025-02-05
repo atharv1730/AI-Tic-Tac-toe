@@ -180,6 +180,9 @@ def main():
     board = game.board
     ai = game.ai
     
+    # Add an input in the start for game mode and AI level
+    # Then disable changing the game mode and AI level in the middle of the game.
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
