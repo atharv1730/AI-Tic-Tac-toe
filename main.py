@@ -126,9 +126,8 @@ class AI:
 
         if move is not None:
             print(f'AI has chosen to mark the square in pos {move} with an eval of: {eval}')
-        else:
-            print('AI has no moves left to make.')
 
+            
         return move  # row, col
 
 
