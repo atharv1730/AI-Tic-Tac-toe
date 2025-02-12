@@ -224,14 +224,6 @@ def main():
                         game.running = False
 
 
-            if event.type == pygame.KEYDOWN:
-                # r is pressed to reset the game
-                if event.key == pygame.K_r:
-                    game.reset()
-                    board = game.board
-                    ai = game.ai
-
-
         if game.gamemode == "ai" and ai.player == game.player and game.running:
             pygame.display.update()
 
